@@ -21,7 +21,7 @@ jobs:
         run: pandoc example.md -f markdown -t html -o example.html
 
       - name: Upload HTML output
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: html-file
           path: example.html
