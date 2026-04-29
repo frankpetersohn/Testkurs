@@ -1,4 +1,4 @@
-name: Markdown to HTML
+name: Convert all Markdown to HTML
 
 on:
   push:
@@ -11,17 +11,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Check out the repository
       - name: Check out repository
         uses: actions/checkout@v4
 
+      # Install Pandoc for Markdown to HTML conversion
       - name: Install Pandoc
         run: sudo apt-get update && sudo apt-get install -y pandoc
 
-      - name: Convert Markdown to HTML
-        run: pandoc example.md -f markdown -t html -o example.html
+      # Find and convert all .md files to .html
+      - name: Convert all Markdown files to HTML
+        run: |
+          mkdir -p html_output
+          for file in $(find . -type f -name "*.md"); do
+            filename=$(basename "$file" .md)
+            pandoc "$file" -f markdown -t html -o "html_output/${filename}.html"
+          done
 
-      - name: Upload HTML output
+      # Upload all generated HTML files as artifacts
+      - name: Upload HTML outputs
         uses: actions/upload-artifact@v4
         with:
-          name: html-file
-          path: example.html
+          name: html-files
+          path: html_output/
