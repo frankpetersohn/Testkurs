@@ -1,0 +1,40 @@
+name: Build and Deploy MkDocs
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Repo auschecken
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Python installieren
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+
+      # MkDocs + Material Theme installieren
+      - name: Install dependencies
+        run: |
+          pip install mkdocs mkdocs-material
+
+      # Website bauen
+      - name: Build MkDocs site
+        run: |
+          mkdocs build
+
+      # Deploy auf GitHub Pages
+      - name: Deploy to GitHub Pages
+        run: |
+          mkdocs gh-deploy --force
