@@ -25,7 +25,7 @@ jobs:
           mkdir -p html_output
           for file in $(find . -type f -name "*.md"); do
             filename=$(basename "$file" .md)
-            pandoc "$file" -f markdown -t html -o "html_output/${filename}.html"
+            pandoc "$file" -f markdown -t html -s -c github-markdown.css -o "html_output/${filename}.html"
           done
 
       # Upload all generated HTML files as artifacts
