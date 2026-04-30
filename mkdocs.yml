@@ -1,0 +1,7 @@
+site_name: Meine Doku
+
+theme:
+  name: material
+
+nav:
+  - Startseite: index.md
